@@ -1,4 +1,6 @@
-build
+*.pyc
+*pycache*
+*.build
 dist
 *.egg-info
 

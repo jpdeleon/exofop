@@ -144,7 +144,9 @@ def get_planets(epic):
 
 
 def get_all_links(epic,mission='k2'):
-
+    '''
+    scrape all links in epic's exofop page 
+    '''
     baseurl = "https://exofop.ipac.caltech.edu/"
 
     webpage = baseurl+mission+"/edit_target.php?id={}".format(epic)
@@ -167,7 +169,9 @@ def get_all_links(epic,mission='k2'):
     return links
 
 def get_specific_ext(links,ext='csv',mission='k2'):
-
+    '''
+    parse list of links for text with specific extension
+    '''
     baseurl = "https://exofop.ipac.caltech.edu/"
 
     wanted = []
@@ -184,6 +188,9 @@ def get_specific_ext(links,ext='csv',mission='k2'):
     return wanted
 
 def save_to_file(epic, urls, ext):
+    '''
+    download and save file(s) as epic/*.ext 
+    '''
     epic = str(epic)
     if not os.path.exists(epic):
         os.makedirs(epic)
@@ -209,4 +216,4 @@ def save_to_file(epic, urls, ext):
             print('Error: {}\nNot saved: {}\n'.format(e,url))
         i+=1
 
-    return None
+    return destination
