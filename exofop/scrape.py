@@ -145,7 +145,7 @@ def get_planets(epic):
 
 def get_all_links(epic,mission='k2'):
     '''
-    scrape all links in epic's exofop page 
+    scrape all links in epic's exofop page
     '''
     baseurl = "https://exofop.ipac.caltech.edu/"
 
@@ -182,14 +182,16 @@ def get_specific_ext(links,ext='csv',mission='k2'):
         except:
             pass
 
-    if len(wanted) == 0:
+    if len(wanted)==0:
         print('No links fetched with file extension={}\n'.format(ext))
-        sys.exit()
-    return wanted
+        #sys.exit()
+        return None
+    else:
+        return wanted
 
 def save_to_file(epic, urls, ext):
     '''
-    download and save file(s) as epic/*.ext 
+    download and save file(s) as epic/*.ext
     '''
     epic = str(epic)
     if not os.path.exists(epic):
@@ -200,7 +202,6 @@ def save_to_file(epic, urls, ext):
         os.makedirs(subfolder)
 
     print('\n----------Saving .{} files----------\n'.format(ext))
-    i =0
     for url in tqdm(urls):
         #save: e.g. epic/epic.csv
         # if len(urls) > 1:
@@ -209,11 +210,13 @@ def save_to_file(epic, urls, ext):
         #     fname = epic+'.'+ext
         fname = url.split('/')[-1]
         destination = os.path.join(subfolder,fname)
-        try:
-            urlretrieve(url, destination)
-            #print('Saved: {}\n'.format(url))
-        except Exception as e:
-            print('Error: {}\nNot saved: {}\n'.format(e,url))
-        i+=1
+        if url and not os.path.exists(destination):
+            try:
+                urlretrieve(url, destination)
+                #print('Saved: {}\n'.format(url))
+            except Exception as e:
+                print('Error: {}\nNot saved: {}\n'.format(e,url))
+        else:
+            print('{} exists!'.format(destination))
 
     return destination
