@@ -193,30 +193,31 @@ def save_to_file(epic, urls, ext):
     '''
     download and save file(s) as epic/*.ext
     '''
-    epic = str(epic)
-    if not os.path.exists(epic):
-        os.makedirs(epic)
+    if urls is not None:
+        epic = str(epic)
+        if not os.path.exists(epic):
+            os.makedirs(epic)
 
-    subfolder = os.path.join(epic,ext)
-    if not os.path.exists(subfolder):
-        os.makedirs(subfolder)
+        subfolder = os.path.join(epic,ext)
+        if not os.path.exists(subfolder):
+            os.makedirs(subfolder)
 
-    print('\n----------Saving .{} files----------\n'.format(ext))
-    for url in tqdm(urls):
-        #save: e.g. epic/epic.csv
-        # if len(urls) > 1:
-        #     fname = epic+'_'+str(i)+'.'+ext
-        # else:
-        #     fname = epic+'.'+ext
-        fname = url.split('/')[-1]
-        destination = os.path.join(subfolder,fname)
-        if url and not os.path.exists(destination):
-            try:
-                urlretrieve(url, destination)
-                #print('Saved: {}\n'.format(url))
-            except Exception as e:
-                print('Error: {}\nNot saved: {}\n'.format(e,url))
-        else:
-            print('{} exists!'.format(destination))
+        print('\n----------Saving .{} files----------\n'.format(ext))
+        for url in tqdm(urls):
+            #save: e.g. epic/epic.csv
+            # if len(urls) > 1:
+            #     fname = epic+'_'+str(i)+'.'+ext
+            # else:
+            #     fname = epic+'.'+ext
+            fname = url.split('/')[-1]
+            destination = os.path.join(subfolder,fname)
+            if url and not os.path.exists(destination):
+                try:
+                    urlretrieve(url, destination)
+                    #print('Saved: {}\n'.format(url))
+                except Exception as e:
+                    print('Error: {}\nNot saved: {}\n'.format(e,url))
+            else:
+                print('{} exists!'.format(destination))
 
-    return destination
+        return destination
